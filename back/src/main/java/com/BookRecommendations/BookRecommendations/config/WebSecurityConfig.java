@@ -32,11 +32,15 @@ public class WebSecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/books/**", "http://localhost:8080/").permitAll()
+                        .requestMatchers("/api/books/**", "/h2-console/**","/api/users/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .headers(headers -> headers
+                        .frameOptions().sameOrigin() // Разрешает загрузку в iframe
+                )
                 .build();
     }
 }
+

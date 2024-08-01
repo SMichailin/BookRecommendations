@@ -32,4 +32,5 @@ public class ApplicationConfig {
         authProvider.setPasswordEncoder(bCrypt.passwordEncoder());
         return authProvider;
     }
+
 }
