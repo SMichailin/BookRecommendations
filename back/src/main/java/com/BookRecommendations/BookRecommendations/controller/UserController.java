@@ -3,6 +3,8 @@ package com.BookRecommendations.BookRecommendations.controller;
 import com.BookRecommendations.BookRecommendations.model.User;
 import com.BookRecommendations.BookRecommendations.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,6 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class UserController {
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User user) {
+        try {
+            User authenticatedUser = userService.loginUser(user);
+            return ResponseEntity.ok(authenticatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
 
     private final UserService userService;
 

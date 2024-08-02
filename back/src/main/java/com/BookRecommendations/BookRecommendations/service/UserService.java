@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -25,7 +27,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already in use");
         }
 
-        if (user.getPassword() == null || user.getPassword().length() < 8) {
+        if (user.getPassword().length() < 8) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 8 characters long");
         }
 
@@ -36,5 +38,14 @@ public class UserService {
         user.setRole("ROLE_USER");
 
         return userRepository.save(user);
+    }
+
+    public User loginUser(User user) {
+        Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+        if (optionalUser.isPresent() && passwordEncoder.matches(user.getPassword(), optionalUser.get().getPassword())) {
+            return optionalUser.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+        }
     }
 }
