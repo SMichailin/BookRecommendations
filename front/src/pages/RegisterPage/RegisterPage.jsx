@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { registerUser} from '../../../Services/registerService'
+import { registerUser} from '../../Services/registerService'
 import './RegisterPage.css';
 
 const RegisterPage = () => {
