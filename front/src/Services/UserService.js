@@ -15,3 +15,4 @@ export const getUserRole = async (token) => {
     throw error;
   }
 };
+
