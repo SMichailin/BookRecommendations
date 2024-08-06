@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './AddBookPage.css';
-import { addBook } from '../../Services/BookService'
-import { getGenres } from '../../Services/GenreService';
+import { addBook } from '../../Services/BookService';
+import { fetchGenres } from '../../Services/FetchGenres';
 
 const AddBookPage = () => {
   const [formData, setFormData] = useState({
@@ -18,16 +18,16 @@ const AddBookPage = () => {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    const fetchGenres = async () => {
+    const fetchGenresData = async () => {
       try {
-        const genres = await getGenres();
+        const genres = await fetchGenres();
         setGenres(genres);
       } catch (err) {
         console.error('Failed to fetch genres', err);
       }
     };
 
-    fetchGenres();
+    fetchGenresData();
   }, []);
 
   const handleChange = (e) => {

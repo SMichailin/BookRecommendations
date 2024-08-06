@@ -5,7 +5,8 @@ export const fetchGenres = async () => {
     const token = localStorage.getItem('authToken'); // Get token from localStorage
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/genres`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     });
     return response.data;

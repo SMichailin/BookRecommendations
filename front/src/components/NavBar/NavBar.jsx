@@ -3,7 +3,10 @@ import './NavBar.css';
 import { useAuth } from '../../context/AuthContext';
 
 const NavBar = () => {
-  const { user } = useAuth();
+  const { authToken, userRole } = useAuth();
+
+  console.log('AuthToken:', authToken);
+  console.log('UserRole:', userRole);
 
   return (
     <nav className="navbar">
@@ -12,7 +15,7 @@ const NavBar = () => {
         <li><Link to="/login">Login</Link></li>
         <li><Link to="/register">Register</Link></li>
         <li><Link to="/add-book">Add Book</Link></li>
-        {user && user.role === 'admin' && ( 
+        {userRole === 'ROLE_ADMIN' && (
           <li><Link to="/add-genre">Add Genre</Link></li>
         )}
       </ul>

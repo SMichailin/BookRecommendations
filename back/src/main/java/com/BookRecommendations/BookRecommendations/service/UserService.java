@@ -17,6 +17,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+
+
     public User registerUser(User user) {
 
         if (user.getPassword() == null || user.getPassword().isEmpty()) {

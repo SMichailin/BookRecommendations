@@ -15,12 +15,11 @@ const AddGenrePage = () => {
       if (token) {
         try {
           const role = await getUserRole(token);
+          console.log('User role:', role); // Log the user role
           setIsAdmin(role === 'ROLE_ADMIN');
         } catch (error) {
           console.error('Failed to fetch user role:', error);
         }
-      } else {
-        setIsAdmin(false);
       }
     };
     checkAdmin();

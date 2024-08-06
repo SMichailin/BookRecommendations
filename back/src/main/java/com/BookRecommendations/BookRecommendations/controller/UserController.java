@@ -6,7 +6,10 @@ import com.BookRecommendations.BookRecommendations.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/users")
@@ -36,6 +39,15 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/role")
+    public ResponseEntity<?> getUserRole(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+        }
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(Collections.singletonMap("role", user.getRole()));
     }
 
     // Inner class to encapsulate the token in the response
