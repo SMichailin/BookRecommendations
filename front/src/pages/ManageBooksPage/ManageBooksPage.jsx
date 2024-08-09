@@ -124,6 +124,8 @@ const ManageBooksPage = () => {
   const handleCardClick = (book) => {
     setSelectedBook(book);
   };
+  
+  
 
   const handleCloseDetail = () => {
     setSelectedBook(null);

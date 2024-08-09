@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -14,6 +16,7 @@ const HomePage = () => {
       try {
         const booksData = await fetchBooks();
         setBooks(booksData);
+        setFilteredBooks(booksData);
       } catch (err) {
         setError('Failed to fetch books.');
         console.error(err);
@@ -23,6 +26,21 @@ const HomePage = () => {
     loadBooks();
   }, []);
 
+  const handleSearchChange = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    if (term === '') {
+      setFilteredBooks(books);
+    } else {
+      const filtered = books.filter((book) =>
+        book.title.toLowerCase().includes(term) ||
+        book.description.toLowerCase().includes(term) ||
+        book.genre.toLowerCase().includes(term)
+      );
+      setFilteredBooks(filtered);
+    }
+  };
+
   const handleCardClick = (book) => {
     navigate(`/book/${book.id}`);
   };
@@ -31,10 +49,17 @@ const HomePage = () => {
     <div className="home-container">
       <h1>Welcome to Book Recommendations</h1>
       <p>This is the best place to find and share book recommendations.</p>
+      <input
+        type="text"
+        placeholder="Search books..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-input"
+      />
       {error && <div className="alert alert-danger">{error}</div>}
       <div className="book-cards-container">
-        {books.length > 0 ? (
-          books.map((book) => (
+        {filteredBooks.length > 0 ? (
+          filteredBooks.map((book) => (
             <BookCard
               key={book.id}
               title={book.title}

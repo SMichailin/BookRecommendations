@@ -18,7 +18,6 @@ const LoginPage = () => {
 
     try {
       const token = await loginUser(formData);
-      console.log('Token:', token); // Log the token to the console
       login(token); 
       setSuccess('User logged in successfully');
       setError('');
