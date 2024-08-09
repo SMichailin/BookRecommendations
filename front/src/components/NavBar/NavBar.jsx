@@ -21,7 +21,11 @@ const NavBar = () => {
           <>
             <li><Link to="/add-book">Add Book</Link></li>
             {userRole === 'ROLE_ADMIN' && (
-              <li><Link to="/add-genre">Add Genre</Link></li>
+              <>
+                <li><Link to="/add-genre">Add Genre</Link></li>
+                <li><Link to="/manage-genres">Manage Genres</Link></li>
+                <li><Link to="/manage-books">Manage Books</Link></li>
+              </>
             )}
             <li>
               <button onClick={logout} className="logout-button">Logout</button>
